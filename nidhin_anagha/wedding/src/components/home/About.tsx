@@ -1,96 +1,114 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import Link from 'next/link';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import Image from 'next/image';
+import { useRef } from 'react';
+import Particles from '@/components/Particles';
 
 export default function About() {
+    const sectionRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start end", "end start"]
+    });
+
+    const smoothScroll = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+
+    // Cinematic Depth Transitions
+    const img1Y = useTransform(smoothScroll, [0, 1], [-50, 50]);
+    const img2Y = useTransform(smoothScroll, [0, 1], [50, -50]);
+    const textLayerY = useTransform(smoothScroll, [0, 1], [100, -100]);
+
     return (
-        <section id="about" className="py-40 bg-[#fffcf9] overflow-hidden relative border-t border-gray-50">
-            {/* Artistic Gold Watermark */}
-            <div className="absolute top-0 right-0 p-20 opacity-5 pointer-events-none select-none">
-                <span className="text-[20vw] font-serif italic text-natya-gold">Union</span>
+        <section ref={sectionRef} className="py-64 bg-black relative overflow-hidden">
+            <Particles />
+            {/* LARGE BACKGROUND DECOR */}
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 opacity-[0.03] select-none pointer-events-none">
+                <h3 className="text-[30vw] font-serif font-black text-white italic -rotate-12 tracking-tighter">SOULS</h3>
             </div>
-
-            <div className="container mx-auto px-6 relative z-10">
-                <div className="flex flex-col lg:flex-row items-center gap-24 lg:gap-32">
-
-                    {/* Image Presentation - Grayscale Couture (As requested) */}
-                    <div className="w-full lg:w-1/2 relative">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1.2, ease: [0.33, 1, 0.68, 1] }}
-                            className="relative aspect-[4/5] rounded-sm overflow-hidden shadow-2xl border-[15px] border-white ring-1 ring-black/5 z-20 grayscale"
-                        >
-                            <Image
-                                 src="/img/real_image.jpeg"
-                                 alt="Nidhin & Anagha"
-                                 fill
-                                 className="object-cover"
-                             />
-                        </motion.div>
-                        <div className="absolute -top-10 -left-10 w-64 h-64 bg-natya-gold/5 rounded-full -z-10 blur-3xl animate-pulse" />
-                        <div className="absolute -bottom-8 -right-8 w-40 h-40 border-r border-b border-natya-gold/20 -z-10" />
-                    </div>
-
-                    {/* Story Content */}
-                    <div className="w-full lg:w-1/2 space-y-12">
-                        <motion.div
-                            initial={{ opacity: 0, x: 30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1, delay: 0.2 }}
-                            className="space-y-8"
-                        >
-                            <div className="space-y-4">
-                                <span className="text-natya-gold text-[10px] font-bold tracking-[0.6em] uppercase block">
-                                    Our Eternal Promise
-                                </span>
-                                <h2 className="text-5xl md:text-7xl font-serif font-bold text-gray-900 leading-[0.9] tracking-tighter">
-                                    A Journey Built <br /> 
-                                    <span className="italic text-natya-gold font-light">on Pure Love</span>
-                                </h2>
-                            </div>
-
-                            <div className="w-12 h-[1px] bg-natya-gold/40" />
-
-                            <div className="space-y-6">
-                                <p className="text-gray-500 font-light text-xl leading-relaxed italic">
-                                    "When we found each other, we found the missing piece of our hearts. Today, we step forward to weave our lives into one beautiful story."
-                                </p>
-                                <p className="text-gray-400 font-light text-lg leading-relaxed">
-                                    We are delighted to invite you to celebrate the beginning of our new chapter. Your presence and blessings mean the world to us as we exchange our vows and embark on this beautiful adventure together at Makkyad.
-                                </p>
-                            </div>
-
-                            {/* Details Grid */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 pt-4">
-                                <div className="space-y-3">
-                                    <h4 className="text-3xl font-serif font-bold text-gray-900">April 06</h4>
-                                    <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-bold border-t border-gray-100 pt-3">Monday Ceremony</p>
-                                </div>
-                                <div className="space-y-3">
-                                    <h4 className="text-3xl font-serif font-bold text-gray-900">Makkyad</h4>
-                                    <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-bold border-t border-gray-100 pt-3">Wayanad, Kerala</p>
-                                </div>
-                            </div>
-
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.5 }}
-                                className="pt-8"
+            
+            <div className="container max-w-7xl mx-auto px-6 relative z-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 lg:gap-40 items-center">
+                    
+                    {/* Balanced Double Photo Composition */}
+                    <div className="relative group">
+                        {/* Atmospheric Glow */}
+                        <div className="absolute -inset-20 bg-accent/10 blur-[150px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+                        
+                        <div className="relative grid grid-cols-12 gap-4">
+                            {/* Main Background Image ( real_image1.png ) */}
+                            <motion.div 
+                                style={{ y: img1Y }}
+                                className="col-start-1 col-span-9 aspect-[3/4] overflow-hidden rounded-sm shadow-2xl glass-panel relative z-10"
                             >
-                                <Link href="#programs">
-                                    <button className="px-14 py-6 bg-gray-900 text-white font-bold uppercase tracking-[0.4em] text-[10px] rounded-sm hover:bg-natya-gold transition-all duration-500 shadow-xl">
-                                        The Schedule
-                                    </button>
-                                </Link>
+                                <Image
+                                    src="/img/real_image1.png"
+                                    alt="Nidhin & Anagha Portrait"
+                                    fill
+                                    className="object-cover"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                             </motion.div>
-                        </motion.div>
+
+                            {/* Floating Detail Image ( real_image.jpeg ) */}
+                            <motion.div 
+                                style={{ y: img2Y }}
+                                className="col-start-6 col-end-13 top-1/4 absolute aspect-[3/4] overflow-hidden rounded-sm shadow-2xl border-4 border-black z-20"
+                            >
+                                <Image
+                                    src="/img/real_image.jpeg"
+                                    alt="Detail Shot"
+                                    fill
+                                    className="object-cover"
+                                />
+                                <div className="absolute inset-0 bg-accent/10" />
+                            </motion.div>
+                        </div>
                     </div>
+
+                    {/* Sophisticated Editorial Content */}
+                    <div className="relative space-y-16">
+                        <div className="space-y-8">
+                            <motion.div
+                                initial={{ opacity: 0, x: 30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                className="flex items-center gap-6"
+                            >
+                                <div className="w-12 h-[1px] bg-accent" />
+                                <span className="text-accent uppercase tracking-[0.8em] text-[10px] font-bold">The Story</span>
+                            </motion.div>
+                            
+                            <motion.h2 
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 1 }}
+                                className="text-6xl md:text-9xl font-serif text-white leading-[0.85] tracking-tighter"
+                            >
+                                Two Souls <br />
+                                <span className="shimmer-text italic font-light">One Lifetime</span>
+                            </motion.h2>
+                        </div>
+
+                        <motion.p 
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            className="text-gray-400 text-2xl font-light leading-relaxed max-w-lg"
+                        >
+                            Our journey is a celebration of the destiny that brought us together—a union where laughter meets legacy and where two separate worlds create a new, beautiful universe in the heart of Makkiyad HOLY FACE auditorium.
+                        </motion.p>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-16 border-t border-white/10">
+                            <motion.div style={{ y: textLayerY }} className="space-y-4">
+                                <h4 className="text-accent font-serif italic text-3xl">Legacy</h4>
+                                <p className="text-gray-500 text-sm font-light leading-loose">Built on traditions that honor our past while stepping boldly into a future filled with wonder.</p>
+                            </motion.div>
+                            <motion.div style={{ y: textLayerY }} className="space-y-4">
+                                <h4 className="text-accent font-serif italic text-3xl">Infinite</h4>
+                                <p className="text-gray-500 text-sm font-light leading-loose">A promise to cherish every heartbeat and to build a home where love is the only language spoken.</p>
+                            </motion.div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>

@@ -2,58 +2,66 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 
 export default function Preloader() {
     const [isLoading, setIsLoading] = useState(true);
+    const [progress, setProgress] = useState(0);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsLoading(false);
-        }, 2500); // 2.5s simulated load
-        return () => clearTimeout(timer);
+        const interval = setInterval(() => {
+            setProgress(prev => (prev < 100 ? prev + 1 : 100));
+        }, 20);
+        const timer = setTimeout(() => setIsLoading(false), 3000);
+        return () => {
+            clearInterval(interval);
+            clearTimeout(timer);
+        };
     }, []);
 
     return (
         <AnimatePresence mode="wait">
             {isLoading && (
                 <motion.div
-                    className="fixed inset-0 z-[100] bg-[#0a0a0a] flex items-center justify-center overflow-hidden"
-                    exit={{ y: "-100%" }}
-                    transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+                    key="preloader"
+                    className="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center overflow-hidden"
+                    exit={{ 
+                        clipPath: 'circle(0% at 50% 50%)',
+                        opacity: 0,
+                        transition: { duration: 1.5, ease: [0.76, 0, 0.24, 1] }
+                    }}
                 >
-                    <motion.div
-                        className="text-center flex flex-col items-center"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        <div className="flex flex-col items-center justify-center space-y-2 mb-6">
-                            <motion.span
-                                initial={{ y: 20, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                transition={{ duration: 0.8, delay: 0.2 }}
-                                className="text-5xl md:text-7xl font-serif font-bold text-white tracking-tighter"
-                            >
-                                N <span className="text-natya-gold italic">&</span> A
-                            </motion.span>
-                        </div>
+                    {/* Atmospheric Glows */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent/20 rounded-full blur-[150px] animate-pulse" />
 
+                    <div className="relative flex flex-col items-center">
                         <motion.div
-                            className="h-[1px] bg-natya-gold w-0 mx-auto"
-                            animate={{ width: "100%", maxWidth: 200 }}
-                            transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }}
-                        />
-                        <motion.p
-                            className="text-white/80 mt-4 text-xs tracking-[0.4em] uppercase"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.5, delay: 1 }}
+                            initial={{ opacity: 0, letterSpacing: '2em' }}
+                            animate={{ opacity: 1, letterSpacing: '0.8em' }}
+                            transition={{ duration: 2, ease: "easeOut" }}
+                            className="text-white font-serif text-3xl md:text-5xl uppercase font-bold text-center mb-10"
                         >
-                            Opening Invitation
-                        </motion.p>
-                    </motion.div>
+                            <span className="title-shimmer italic">Welcoming</span> <br />
+                            <span className="inline-block mt-4">NIDHIN & ANAGHA</span>
+                        </motion.div>
+                        
+                        {/* Progress Bar */}
+                        <div className="w-64 h-[1px] bg-white/10 relative overflow-hidden">
+                            <motion.div 
+                                initial={{ x: '-100%' }}
+                                animate={{ x: `${progress - 100}%` }}
+                                className="absolute inset-0 bg-accent"
+                            />
+                        </div>
+                        
+                        <div className="mt-6 text-[10px] text-accent uppercase tracking-[0.5em]">
+                            {progress}%
+                        </div>
+                    </div>
+
+                    <div className="absolute bottom-20 flex flex-col items-center gap-4">
+                        <div className="w-[1px] h-20 bg-gradient-to-t from-accent to-transparent opacity-40" />
+                        <span className="text-[10px] text-white/20 uppercase tracking-[1em]">Beginning</span>
+                    </div>
                 </motion.div>
             )}
         </AnimatePresence>

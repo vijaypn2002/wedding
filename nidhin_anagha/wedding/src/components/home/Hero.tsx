@@ -1,203 +1,179 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRef, useEffect, useState } from 'react';
+import Particles from '@/components/Particles';
 
 export default function Hero() {
+    const sectionRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start start", "end end"]
+    });
+
+    const smoothScroll = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+
+    // 2026 "Editorial Perspective" Transitions
+    const photoScale = useTransform(smoothScroll, [0, 1], [1, 1.15]);
+    const photoRotate = useTransform(smoothScroll, [0, 1], [0, 5]);
+    const textX = useTransform(smoothScroll, [0, 1], [0, -100]);
+    const detailY = useTransform(smoothScroll, [0, 0.5], [0, 50]);
+    const opacity = useTransform(smoothScroll, [0.8, 1], [1, 0]);
+
+    const [mouse, setMouse] = useState({ x: 0, y: 0 });
+    useEffect(() => {
+        const handleMove = (e: MouseEvent) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 15;
+            const y = (e.clientY / window.innerHeight - 0.5) * 15;
+            setMouse({ x, y });
+        };
+        window.addEventListener('mousemove', handleMove);
+        return () => window.removeEventListener('mousemove', handleMove);
+    }, []);
+
     return (
-        <section className="relative min-h-screen bg-[#faf9f6] flex flex-col lg:flex-row items-stretch overflow-hidden">
-            
-            {/* MOBILE HERO (VISIBLE ONLY ON MOBILE) */}
-            <div className="lg:hidden flex flex-col w-full min-h-screen relative bg-white">
-                {/* Image Section (Color) */}
-                <motion.div 
-                    initial={{ opacity: 0, scale: 1.1 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1.5 }}
-                    className="relative w-full h-[55vh] overflow-hidden"
-                >
-                    <Image
-                        src="/img/real_image.jpeg"
-                        alt="Nidhin & Anagha"
-                        fill
-                        className="object-cover"
-                        priority
-                    />
-                    <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent" />
-                </motion.div>
-
-                {/* Text Content */}
-                <div className="flex-1 flex flex-col items-center justify-start -mt-16 px-6 relative z-10 text-center pb-20">
-                    <motion.div 
-                        initial={{ y: 20, opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
-                        className="mb-6 flex flex-col items-center gap-2"
-                    >
-                        <div className="w-10 h-10 rounded-full border border-natya-gold/20 flex items-center justify-center text-natya-gold text-[10px] font-serif bg-white shadow-sm">
-                            N&A
-                        </div>
-                        <span className="text-natya-gold text-[8px] font-bold uppercase tracking-[0.5em]">The Union</span>
-                    </motion.div>
-
-                    <div className="relative mb-12">
-                        <motion.h1 
-                            initial={{ x: -20, opacity: 0 }}
-                            whileInView={{ x: 0, opacity: 1 }}
-                            transition={{ delay: 0.3 }}
-                            className="text-6xl font-serif font-bold text-gray-900 leading-none tracking-tighter"
-                        >
-                            Nidhin
-                        </motion.h1>
-                        <motion.div 
-                            initial={{ scale: 0, opacity: 0 }}
-                            whileInView={{ scale: 1, opacity: 0.15 }}
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-8xl font-serif italic text-natya-gold"
-                        >
-                            &
-                        </motion.div>
-                        <motion.h1 
-                            initial={{ x: 20, opacity: 0 }}
-                            whileInView={{ x: 0, opacity: 1 }}
-                            transition={{ delay: 0.4 }}
-                            className="text-6xl font-serif font-bold text-gray-900 leading-none tracking-tighter mt-2"
-                        >
-                            Anagha
-                        </motion.h1>
-                    </div>
-
-                    <motion.div 
-                        initial={{ y: 20, opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.5 }}
-                        className="space-y-6"
-                    >
-                        <div className="space-y-1">
-                            <p className="text-gray-900 font-serif italic text-2xl">April 06, 2026</p>
-                            <p className="text-gray-400 text-[9px] uppercase tracking-[0.3em]">Makkyad, Wayanad</p>
-                        </div>
-
-                        <div className="flex gap-4 pt-4">
-                            <Link href="#about">
-                                <button className="px-8 py-4 bg-gray-900 text-white font-bold text-[9px] uppercase tracking-[0.3em] rounded-sm shadow-xl">
-                                    The Story
-                                </button>
-                            </Link>
-                            <Link href="#map">
-                                <button className="px-8 py-4 border border-gray-200 text-gray-400 font-bold text-[9px] uppercase tracking-[0.3em] rounded-sm">
-                                    The Venue
-                                </button>
-                            </Link>
-                        </div>
-                    </motion.div>
+        <section ref={sectionRef} className="relative h-[110vh] bg-black overflow-hidden perspective-hero">
+            <div className="sticky top-0 h-screen w-full flex items-center justify-center p-6 md:p-12 pt-32 md:pt-40">
+                
+                {/* 1. CINEMATIC BACKGROUND GLOW */}
+                <div className="absolute inset-0 z-0">
+                    <Particles />
+                    <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[150px] animate-pulse" />
+                    <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[150px] animate-pulse" />
                 </div>
-            </div>
 
-            {/* DESKTOP HERO (Gold Accents & Color Image) */}
-            <div className="hidden lg:flex flex-row w-full min-h-screen">
-                <div className="w-[45%] flex flex-col justify-center px-12 md:px-24 bg-white relative z-20 overflow-hidden">
-                    <span className="absolute top-1/2 left-0 -translate-y-1/2 text-[35vw] font-serif font-bold text-gray-50/80 pointer-events-none select-none z-0 tracking-tighter">
-                        N&A
-                    </span>
-
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 1.5 }}
-                        className="relative z-10 w-full max-w-lg"
+                {/* 2. THE MAIN COMPOSITION (Split Editorial) */}
+                <div className="container max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-24 relative z-10">
+                    
+                    {/* LEFT SIDE: Typography Stack */}
+                    <motion.div 
+                        style={{ x: textX, opacity }}
+                        className="flex flex-col items-center md:items-start text-center md:text-left gap-10 md:w-1/2"
                     >
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.3, duration: 1 }}
-                            className="mb-12 flex items-center gap-4"
+                            className="space-y-4"
                         >
-                            <div className="w-8 h-[1px] bg-natya-gold/40" />
-                            <span className="text-natya-gold text-[9px] font-bold uppercase tracking-[0.5em]">
-                                Our Eternal Journey
-                            </span>
+                            <span className="text-accent text-[10px] font-bold tracking-[0.8em] uppercase">Private Invitation</span>
+                            <div className="w-24 h-[1px] bg-accent/30 mx-auto md:mx-0" />
                         </motion.div>
 
-                        <div className="relative mb-20">
+                        <div className="space-y-0">
+                            {/* Nidhin - Cinematic Reveal */}
                             <motion.h1 
-                                initial={{ opacity: 0, x: -30, filter: "blur(10px)" }}
-                                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                                transition={{ delay: 0.6, duration: 1 }}
-                                className="text-7xl md:text-8xl xl:text-[120px] font-serif font-bold text-gray-900 leading-none tracking-tighter"
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 1.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                                className="text-6xl lg:text-[110px] font-serif font-black text-white leading-[0.9] tracking-tighter"
                             >
                                 Nidhin
                             </motion.h1>
-                            
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 0.15, scale: 1 }}
-                                transition={{ delay: 0.9 }}
-                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[180px] font-serif italic text-natya-gold pointer-events-none"
+
+                            <motion.div 
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 1.5, delay: 0.6, ease: "easeOut" }}
+                                className="flex items-center gap-8 -my-2 md:-my-4"
                             >
-                                &
+                                <span className="text-accent text-5xl lg:text-7xl font-serif italic font-light">&</span>
                             </motion.div>
 
+                            {/* Anagha - Cinematic Reveal */}
                             <motion.h1 
-                                initial={{ opacity: 0, x: 30, filter: "blur(10px)" }}
-                                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                                transition={{ delay: 0.8, duration: 1 }}
-                                className="text-7xl md:text-8xl xl:text-[120px] font-serif font-bold text-gray-900 leading-none tracking-tighter text-right mt-4"
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 1.5, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                                className="text-6xl lg:text-[110px] font-serif font-black text-white leading-[0.9] tracking-tighter"
                             >
                                 Anagha
                             </motion.h1>
                         </div>
 
-                        <div className="flex items-center gap-8">
-                            <div className="space-y-1">
-                                <p className="text-gray-900 font-serif italic text-3xl">April 06, 2026</p>
-                                <p className="text-gray-400 text-[10px] uppercase tracking-[0.3em]">Monday Morning</p>
+                        <motion.div 
+                            style={{ y: detailY }}
+                            className="space-y-4 pt-8"
+                        >
+                            <p className="text-white font-serif italic text-3xl lg:text-4xl tracking-tight">
+                                Monday · April 06
+                            </p>
+                            <div className="flex flex-col gap-1">
+                                <p className="text-accent text-[10px] font-bold uppercase tracking-[0.6em] shimmer-text">
+                                    Makkiyad HOLY FACE auditorium · Wayanad
+                                </p>
+                                <p className="text-white/20 text-[9px] uppercase tracking-[0.4em]">Reception starts 07:00 PM</p>
                             </div>
-                            <div className="w-[1px] h-12 bg-gray-100" />
-                            <div className="space-y-1">
-                                <p className="text-gray-900 font-serif italic text-3xl">Makkyad</p>
-                                <p className="text-gray-400 text-[10px] uppercase tracking-[0.3em]">Wayanad, Kerala</p>
+                        </motion.div>
+                    </motion.div>
+
+                    {/* RIGHT SIDE: The 3D Floating Portrait */}
+                    <motion.div 
+                        style={{ 
+                            scale: photoScale,
+                            rotateZ: photoRotate,
+                            rotateX: -mouse.y,
+                            rotateY: mouse.x,
+                        }}
+                        className="relative w-full max-w-[480px] aspect-[4/5] z-20 group"
+                    >
+                        {/* High-End Glass Frame */}
+                        <div className="absolute -inset-10 bg-accent/5 rounded-sm blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+                        
+                        <div className="relative w-full h-full glass-panel p-2 rounded-sm shadow-[0_100px_200px_-50px_rgba(0,0,0,1)] border border-white/5 overflow-hidden light-sweep">
+                            <div className="relative w-full h-full overflow-hidden rounded-sm">
+                                <Image
+                                    src="/img/real_image1.png"
+                                    alt="Nidhin & Anagha Portrait"
+                                    fill
+                                    className="object-cover object-top transition-transform duration-[5s] group-hover:scale-110"
+                                    priority
+                                />
+                                {/* Soft Editorial Vignette */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
                             </div>
+                            
+                            {/* Floating Corner Decor */}
+                            <div className="absolute top-8 right-8 w-12 h-12 border-t border-r border-accent/30 opacity-40" />
+                            <div className="absolute bottom-8 left-8 w-12 h-12 border-b border-l border-accent/30 opacity-40" />
                         </div>
 
-                        <div className="flex gap-6 mt-12">
-                            <Link href="#about">
-                                <button className="px-12 py-5 bg-gray-900 text-white font-bold text-[10px] uppercase tracking-[0.4em] hover:bg-natya-gold transition-all duration-500 rounded-sm">
-                                    Our Story
-                                </button>
-                            </Link>
-                            <Link href="#map">
-                                <button className="px-12 py-5 border border-gray-200 text-gray-400 font-bold text-[10px] uppercase tracking-[0.4em] hover:border-gray-900 hover:text-gray-900 transition-all duration-500 rounded-sm">
-                                    The Venue
+                        {/* Button Integrated into Layout */}
+                        <div className="absolute -bottom-10 md:-right-20 md:bottom-20 z-30 pointer-events-auto">
+                            <Link href="#programs">
+                                <button className="group relative px-16 py-7 overflow-hidden border border-white/10 hover:border-accent transition-all duration-700 bg-black/60 backdrop-blur-3xl rounded-sm">
+                                    <span className="relative z-10 text-white group-hover:text-black text-[10px] font-black uppercase tracking-[0.6em] transition-colors duration-500">
+                                        Open Invitation
+                                    </span>
+                                    <div className="absolute inset-0 bg-accent translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-700 ease-[0.7, 0, 0.3, 1]" />
                                 </button>
                             </Link>
                         </div>
                     </motion.div>
+
                 </div>
 
-                {/* RIGHT SIDE (Color Image) */}
-                <div className="w-[55%] relative">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 1.05 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 2 }}
-                        className="absolute inset-0"
-                    >
-                        <Image
-                            src="/img/real_image.jpeg"
-                            alt="Nidhin & Anagha"
-                            fill
-                            className="object-cover"
-                            priority
-                        />
-                        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent" />
-                    </motion.div>
+                {/* 3. BACKGROUND TEXTURE (EPHEMERAL) */}
+                <div className="absolute top-1/2 left-0 -translate-y-1/2 opacity-[0.02] select-none pointer-events-none rotate-90 md:rotate-0">
+                    <h2 className="text-[25vw] font-serif font-black text-white tracking-tighter shimmer-text">
+                        UNION
+                    </h2>
+                </div>
 
-                    <div className="absolute bottom-12 right-12 flex flex-col items-center gap-4">
-                        <span className="text-[10px] uppercase tracking-[0.6em] text-white/50 mix-blend-difference [writing-mode:vertical-lr] rotate-180">Scroll to Explore</span>
-                        <div className="w-[1px] h-24 bg-gradient-to-b from-white to-transparent opacity-30" />
-                    </div>
+                {/* SCROLL DECOR - Relocated to Center-Bottom to prevent overlap */}
+                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-40">
+                    <span className="text-[8px] uppercase tracking-[0.8em] text-accent/60 font-black">Scroll</span>
+                    <motion.div 
+                        animate={{ y: [0, 10, 0], opacity: [0.3, 1, 0.3] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        className="w-[1px] h-12 bg-gradient-to-b from-accent to-transparent" 
+                    />
                 </div>
             </div>
+
+            {/* Cinematic Film Grain Overlay */}
+            <div className="absolute inset-0 opacity-[0.04] pointer-events-none bg-soft-texture z-50 screen-blend" />
         </section>
     );
 }

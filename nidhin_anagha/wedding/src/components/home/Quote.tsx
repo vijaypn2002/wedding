@@ -1,33 +1,45 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 
 export default function Quote() {
+    const sectionRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start end", "end start"]
+    });
+
+    const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8]);
+    const blur = useTransform(scrollYProgress, [0, 0.5, 1], ["blur(10px)", "blur(0px)", "blur(10px)"]);
+
     return (
-        <section className="py-24 bg-white text-center">
-            <div className="container mx-auto px-6">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1 }}
-                    className="max-w-4xl mx-auto space-y-8"
-                >
-                    <div className="text-natya-gold mb-4">
-                        <svg className="w-12 h-12 mx-auto animate-pulse" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H16.017C15.4647 8 15.017 8.44772 15.017 9V12C15.017 12.5523 14.5693 13 14.017 13H13.017V21H14.017ZM6.017 21L6.017 18C6.017 16.8954 6.91243 16 8.017 16H11.017C11.5693 16 12.017 15.5523 12.017 15V9C12.017 8.44772 11.5693 8 11.017 8H8.017C7.46472 8 7.017 8.44772 7.017 9V12C7.017 12.5523 6.56929 13 6.017 13H5.017V21H6.017Z" />
-                        </svg>
-                    </div>
-                    <h2 className="text-3xl md:text-5xl font-serif font-light italic text-gray-800 leading-relaxed">
-                        "Loved you yesterday, love you still, always have, always will."
+        <section ref={sectionRef} className="py-64 bg-black relative flex items-center justify-center">
+            {/* Ambient Background Glows */}
+            <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-accent/10 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-accent/5 rounded-full blur-[120px] pointer-events-none" />
+
+            <motion.div
+                style={{ scale, filter: blur }}
+                className="container max-w-5xl mx-auto px-6 text-center space-y-16"
+            >
+                <div className="flex flex-col items-center gap-10">
+                    <div className="w-16 h-[1px] bg-accent/30" />
+                    
+                    <h2 className="text-4xl md:text-7xl font-serif font-light italic text-white/90 leading-[1.3] tracking-tight">
+                        "Loved you <span className="text-accent">yesterday</span>, love you still, <br className="hidden md:block" />
+                        always have, always <span className="italic font-normal title-shimmer px-2">will</span>."
                     </h2>
-                    <div className="flex items-center justify-center gap-4 pt-4">
-                        <div className="w-12 h-[1px] bg-natya-gold/30"></div>
-                        <span className="text-natya-gold text-xs font-bold uppercase tracking-widest">– Nidhin & Anagha</span>
-                        <div className="w-12 h-[1px] bg-natya-gold/30"></div>
+
+                    <div className="flex flex-col items-center gap-6 pt-10">
+                        <div className="flex items-center gap-6">
+                            <div className="w-8 h-[1px] bg-white/10" />
+                            <span className="text-accent text-xs font-bold uppercase tracking-[1em]">N <span className="italic font-light text-white/40">&</span> A</span>
+                            <div className="w-8 h-[1px] bg-white/10" />
+                        </div>
                     </div>
-                </motion.div>
-            </div>
+                </div>
+            </motion.div>
         </section>
     );
 }

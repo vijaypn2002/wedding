@@ -1,48 +1,36 @@
 'use client';
 
-import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 export default function Footer() {
     return (
-        <footer className="bg-white py-24 border-t border-gray-50">
-            <div className="container mx-auto px-6">
-                <div className="flex flex-col items-center text-center space-y-12">
-                    
-                    {/* Brand / Names */}
-                    <div className="space-y-4">
-                        <Link href="/" className="text-4xl md:text-5xl font-serif font-bold text-gray-900 tracking-tighter">
-                            Nidhin <span className="text-natya-gold italic font-light">&</span> Anagha
-                        </Link>
-                        <p className="text-gray-400 font-light uppercase tracking-[0.4em] text-[10px]">
-                            April 6, 2026 &bull; Makkyad, Wayanad
+        <footer className="py-40 bg-black border-t border-white/5 relative overflow-hidden">
+            <div className="container max-w-5xl mx-auto px-6 text-center relative z-10">
+                <div className="space-y-16">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        className="space-y-6"
+                    >
+                        <h2 className="text-6xl md:text-9xl font-serif font-black text-white tracking-tighter">
+                            Nidhin <span className="shimmer-text italic font-light">&</span> Anagha
+                        </h2>
+                        <div className="flex justify-center gap-12 text-[11px] uppercase tracking-[1em] text-accent font-black">
+                            <span>06 · 04 · 2026</span>
+                        </div>
+                    </motion.div>
+
+                    <div className="flex flex-col items-center gap-12">
+                        <div className="w-[1px] h-24 bg-gradient-to-b from-accent/50 to-transparent" />
+                        <p className="text-gray-500 text-[11px] uppercase tracking-[0.6em] font-medium max-w-sm leading-loose">
+                            Celebrating the union of two souls in the heart of Makkiyad HOLY FACE auditorium.
                         </p>
                     </div>
 
-                    {/* Thank You Note */}
-                    <div className="max-w-xl">
-                        <p className="text-gray-500 font-light text-lg italic serif leading-relaxed">
-                            "Your presence at our wedding means the world to us. Thank you for being a part of our journey and for your blessings as we begin our life together."
+                    <div className="pt-24 border-t border-white/5 opacity-20">
+                        <p className="text-white text-[9px] uppercase tracking-[1.2em] font-light">
+                            Crafted for eternity
                         </p>
-                    </div>
-
-                    {/* Quick Navigation Links */}
-                    <div className="flex flex-wrap justify-center gap-8 md:gap-12">
-                        {['Home', 'Our Story', 'Events', 'Location'].map((item) => (
-                            <Link 
-                                key={item} 
-                                href={`#${item.toLowerCase().replace(' ', '')}`}
-                                className="text-gray-400 hover:text-natya-gold text-[10px] uppercase font-bold tracking-widest transition-colors"
-                            >
-                                {item}
-                            </Link>
-                        ))}
-                    </div>
-
-                    <div className="w-16 h-[1px] bg-natya-gold/20" />
-
-                    {/* Copyright */}
-                    <div className="text-[10px] uppercase tracking-widest text-gray-400 font-medium">
-                        &copy; 2026 Nidhin & Anagha Wedding Invitation. All Rights Reserved.
                     </div>
                 </div>
             </div>
