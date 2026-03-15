@@ -10,6 +10,9 @@ import Noise from "@/components/Noise";
 export const metadata: Metadata = {
   title: "Nidhin & Anagha | The Wedding",
   description: "Join us in celebrating our eternal union. Monday, April 06, 2026 at Makkiyad HOLY FACE auditorium, Wayanad.",
+  icons: {
+    icon: [],
+  },
 };
 
 export default function RootLayout({
