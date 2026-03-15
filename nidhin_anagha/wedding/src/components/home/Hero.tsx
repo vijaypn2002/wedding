@@ -45,20 +45,20 @@ export default function Hero() {
                 </div>
 
                 {/* 2. THE MAIN COMPOSITION (Split Editorial) */}
-                <div className="container max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-24 relative z-10">
+                <div className="container max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-24 relative z-10 px-4">
                     
                     {/* LEFT SIDE: Typography Stack */}
                     <motion.div 
-                        style={{ x: textX, opacity }}
-                        className="flex flex-col items-center md:items-start text-center md:text-left gap-10 md:w-1/2"
+                        style={{ x: typeof window !== 'undefined' && window.innerWidth > 768 ? textX : 0, opacity }}
+                        className="flex flex-col items-center md:items-start text-center md:text-left gap-8 md:gap-10 w-full md:w-1/2"
                     >
                         <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
                             className="space-y-4"
                         >
-                            <span className="text-accent text-[10px] font-bold tracking-[0.8em] uppercase">Private Invitation</span>
-                            <div className="w-24 h-[1px] bg-accent/30 mx-auto md:mx-0" />
+                            <span className="text-accent text-[9px] md:text-[10px] font-bold tracking-[0.6em] md:tracking-[0.8em] uppercase">Private Invitation</span>
+                            <div className="w-16 md:w-24 h-[1px] bg-accent/30 mx-auto md:mx-0" />
                         </motion.div>
 
                         <div className="space-y-0">
@@ -67,7 +67,7 @@ export default function Hero() {
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 1.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                                className="text-6xl lg:text-[110px] font-serif font-black text-white leading-[0.9] tracking-tighter"
+                                className="text-5xl md:text-7xl lg:text-[110px] font-serif font-black text-white leading-[0.9] tracking-tighter"
                             >
                                 Nidhin
                             </motion.h1>
@@ -76,9 +76,9 @@ export default function Hero() {
                                 initial={{ opacity: 0, scale: 0.5 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 1.5, delay: 0.6, ease: "easeOut" }}
-                                className="flex items-center gap-8 -my-2 md:-my-4"
+                                className="flex items-center justify-center md:justify-start gap-8 -my-2 md:-my-4"
                             >
-                                <span className="text-accent text-5xl lg:text-7xl font-serif italic font-light">&</span>
+                                <span className="text-accent text-4xl md:text-6xl lg:text-7xl font-serif italic font-light">&</span>
                             </motion.div>
 
                             {/* Anagha - Cinematic Reveal */}
@@ -86,24 +86,24 @@ export default function Hero() {
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 1.5, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                                className="text-6xl lg:text-[110px] font-serif font-black text-white leading-[0.9] tracking-tighter"
+                                className="text-5xl md:text-7xl lg:text-[110px] font-serif font-black text-white leading-[0.9] tracking-tighter"
                             >
                                 Anagha
                             </motion.h1>
                         </div>
 
                         <motion.div 
-                            style={{ y: detailY }}
-                            className="space-y-4 pt-8"
+                            style={{ y: typeof window !== 'undefined' && window.innerWidth > 768 ? detailY : 0 }}
+                            className="space-y-4 pt-4 md:pt-8"
                         >
-                            <p className="text-white font-serif italic text-3xl lg:text-4xl tracking-tight">
+                            <p className="text-white font-serif italic text-2xl md:text-3xl lg:text-4xl tracking-tight">
                                 Monday · April 06
                             </p>
                             <div className="flex flex-col gap-1">
-                                <p className="text-accent text-[10px] font-bold uppercase tracking-[0.6em] shimmer-text">
+                                <p className="text-accent text-[9px] md:text-[10px] font-bold uppercase tracking-[0.4em] md:tracking-[0.6em] shimmer-text">
                                     Makkiyad HOLY FACE auditorium · Wayanad
                                 </p>
-                                <p className="text-white/20 text-[9px] uppercase tracking-[0.4em]">Reception starts 07:00 PM</p>
+                                <p className="text-white/20 text-[8px] md:text-[9px] uppercase tracking-[0.3em] md:tracking-[0.4em]">Reception starts 07:00 PM</p>
                             </div>
                         </motion.div>
                     </motion.div>
@@ -113,15 +113,15 @@ export default function Hero() {
                         style={{ 
                             scale: photoScale,
                             rotateZ: photoRotate,
-                            rotateX: -mouse.y,
-                            rotateY: mouse.x,
+                            rotateX: typeof window !== 'undefined' && window.innerWidth > 768 ? -mouse.y : 0,
+                            rotateY: typeof window !== 'undefined' && window.innerWidth > 768 ? mouse.x : 0,
                         }}
-                        className="relative w-full max-w-[480px] aspect-[4/5] z-20 group"
+                        className="relative w-full max-w-[320px] md:max-w-[480px] aspect-[4/5] z-20 group mt-8 md:mt-0"
                     >
                         {/* High-End Glass Frame */}
                         <div className="absolute -inset-10 bg-accent/5 rounded-sm blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
                         
-                        <div className="relative w-full h-full glass-panel p-2 rounded-sm shadow-[0_100px_200px_-50px_rgba(0,0,0,1)] border border-white/5 overflow-hidden light-sweep">
+                        <div className="relative w-full h-full glass-panel p-2 rounded-sm shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] md:shadow-[0_100px_200px_-50px_rgba(0,0,0,1)] border border-white/5 overflow-hidden light-sweep">
                             <div className="relative w-full h-full overflow-hidden rounded-sm">
                                 <Image
                                     src="/img/real_image1.png"
@@ -135,15 +135,15 @@ export default function Hero() {
                             </div>
                             
                             {/* Floating Corner Decor */}
-                            <div className="absolute top-8 right-8 w-12 h-12 border-t border-r border-accent/30 opacity-40" />
-                            <div className="absolute bottom-8 left-8 w-12 h-12 border-b border-l border-accent/30 opacity-40" />
+                            <div className="absolute top-4 right-4 md:top-8 md:right-8 w-8 h-8 md:w-12 md:h-12 border-t border-r border-accent/20 md:border-accent/30 opacity-40" />
+                            <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 w-8 h-8 md:w-12 md:h-12 border-b border-l border-accent/20 md:border-accent/30 opacity-40" />
                         </div>
 
                         {/* Button Integrated into Layout */}
-                        <div className="absolute -bottom-10 md:-right-20 md:bottom-20 z-30 pointer-events-auto">
+                        <div className="absolute -bottom-16 md:-right-20 md:bottom-20 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 z-30 pointer-events-auto w-max">
                             <Link href="#programs">
-                                <button className="group relative px-16 py-7 overflow-hidden border border-white/10 hover:border-accent transition-all duration-700 bg-black/60 backdrop-blur-3xl rounded-sm">
-                                    <span className="relative z-10 text-white group-hover:text-black text-[10px] font-black uppercase tracking-[0.6em] transition-colors duration-500">
+                                <button className="group relative px-10 md:px-16 py-5 md:py-7 overflow-hidden border border-white/10 hover:border-accent transition-all duration-700 bg-black/60 backdrop-blur-3xl rounded-sm">
+                                    <span className="relative z-10 text-white group-hover:text-black text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] md:tracking-[0.6em] transition-colors duration-500">
                                         Open Invitation
                                     </span>
                                     <div className="absolute inset-0 bg-accent translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-700 ease-[0.7, 0, 0.3, 1]" />
@@ -155,8 +155,8 @@ export default function Hero() {
                 </div>
 
                 {/* 3. BACKGROUND TEXTURE (EPHEMERAL) */}
-                <div className="absolute top-1/2 left-0 -translate-y-1/2 opacity-[0.02] select-none pointer-events-none rotate-90 md:rotate-0">
-                    <h2 className="text-[25vw] font-serif font-black text-white tracking-tighter shimmer-text">
+                <div className="absolute top-1/2 left-0 -translate-y-1/2 opacity-[0.015] md:opacity-[0.02] select-none pointer-events-none rotate-90 md:rotate-0">
+                    <h2 className="text-[40vw] md:text-[25vw] font-serif font-black text-white tracking-tighter shimmer-text">
                         UNION
                     </h2>
                 </div>

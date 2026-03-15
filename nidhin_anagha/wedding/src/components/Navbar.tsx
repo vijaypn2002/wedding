@@ -21,12 +21,12 @@ export default function Navbar() {
                 scrolled ? 'py-4' : 'py-10'
             }`}
         >
-            <div className="container max-w-7xl mx-auto px-6">
-                <div className={`relative flex items-center justify-between px-10 py-4 transition-all duration-700 ${
+            <div className="container max-w-7xl mx-auto px-4 md:px-6">
+                <div className={`relative flex items-center justify-between px-6 md:px-10 py-3 md:py-4 transition-all duration-700 ${
                     scrolled ? 'glass rounded-full shadow-2xl' : ''
                 }`}>
                     <Link href="/" className="group flex items-center gap-3">
-                        <span className="text-white font-serif text-2xl font-bold tracking-tighter hover:text-accent transition-colors">
+                        <span className="text-white font-serif text-xl md:text-2xl font-bold tracking-tighter hover:text-accent transition-colors">
                             N <span className="text-accent italic font-light">&</span> A
                         </span>
                     </Link>
@@ -44,7 +44,7 @@ export default function Navbar() {
                     </div>
 
                     <Link href="#map">
-                        <button className="px-8 py-3 glass-gold text-accent text-[9px] uppercase tracking-widest font-bold rounded-full hover:bg-accent hover:text-black transition-all">
+                        <button className="px-5 md:px-8 py-2.5 md:py-3 glass-gold text-accent text-[8px] md:text-[9px] uppercase tracking-widest font-bold rounded-full hover:bg-accent hover:text-black transition-all">
                             Location
                         </button>
                     </Link>
