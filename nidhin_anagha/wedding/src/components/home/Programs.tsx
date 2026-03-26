@@ -8,7 +8,7 @@ const event = {
     time: "07:00 PM",
     title: "The Grand Reception",
     description: "An evening of laughter, dinner, and celebration. We cordially invite you to be part of our beginning as we unite in the heart of Makkiyad.",
-    image: "/img/real_image1.png"
+    image: "/img/NidhinAnagha Portrait4.jpeg"
 };
 
 export default function Programs() {

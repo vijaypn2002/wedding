@@ -124,7 +124,7 @@ export default function Hero() {
                         <div className="relative w-full h-full glass-panel p-2 rounded-sm shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] md:shadow-[0_100px_200px_-50px_rgba(0,0,0,1)] border border-white/5 overflow-hidden light-sweep">
                             <div className="relative w-full h-full overflow-hidden rounded-sm">
                                 <Image
-                                    src="/img/real_image1.png"
+                                    src="/img/NidhinAnagha Portrait2.jpeg"
                                     alt="Nidhin & Anagha Portrait"
                                     fill
                                     className="object-cover object-top transition-transform duration-[5s] group-hover:scale-110"
